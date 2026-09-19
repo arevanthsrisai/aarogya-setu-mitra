@@ -2611,18 +2611,6 @@ async function sendChatMessage() {
   renderChatMessages();
 }
 
-async function triggerChatVoiceStt() {
-  try {
-    const res = await api('/ai/stt', { method: 'POST', body: JSON.stringify({ filename: 'chat_speech.wav' }) });
-    const input = document.getElementById('chat-input');
-    if (input) input.value = res.transcription || 'Child has high fever for 2 days';
-    showNotification('🎙️ Voice input transcribed for AI chat!');
-  } catch (e) {
-    const input = document.getElementById('chat-input');
-    if (input) input.value = 'Child has high fever for 2 days';
-  }
-}
-
 // ── CAREGIVER VIEW ──
 async function renderCaregiverView(container) {
   try {
