@@ -1,0 +1,10 @@
+.env
+node_modules
+data/*.db
+playwright-report
+test-results
+scratch
+graphify-out
+backup_*.zip
+.playwright-cli
+.playwright-mcp
