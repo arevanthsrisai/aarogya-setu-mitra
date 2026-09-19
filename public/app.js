@@ -3,6 +3,10 @@
 // Rural Healthcare Continuity Platform — All Modules Implemented
 // ===================================================================
 
+// API base override for split deployments (Cloudflare Pages frontend + Render API).
+// Same-origin default keeps local dev and single-origin hosting working.
+const API_BASE = window.API_BASE || '';
+
 function getStoredSyncQueue() {
   try {
     const item = localStorage.getItem('syncQueue');
@@ -58,11 +62,11 @@ async function api(endpoint, options = {}) {
   }
 
   try {
-    const res = await fetch(`/api${endpoint}`, { ...options, headers });
+    const res = await fetch(`${API_BASE}/api${endpoint}`, { ...options, headers });
     if (res.status === 401 && state.refreshToken && !options._isRetry) {
       // Silent access-token refresh, then retry once.
       try {
-        const r = await fetch('/api/auth/refresh', {
+        const r = await fetch(`${API_BASE}/api/auth/refresh`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ refreshToken: state.refreshToken })
@@ -2456,7 +2460,7 @@ async function fallbackAudioCapture(targetInputId, onComplete) {
 
       try {
         const token = state.token || localStorage.getItem('token');
-        const res = await fetch('/api/ai/stt', {
+        const res = await fetch(`${API_BASE}/api/ai/stt`, {
           method: 'POST',
           headers: token ? { Authorization: `Bearer ${token}` } : {},
           body: formData
