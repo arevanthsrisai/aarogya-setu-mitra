@@ -1,6 +1,9 @@
 .env
 node_modules
 data/*.db
+data/*.db-shm
+data/*.db-wal
+data/*.wav
 playwright-report
 test-results
 scratch
